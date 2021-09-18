@@ -2,27 +2,18 @@ var  express = require('express');
 var  bodyParser = require('body-parser');
 var  cors = require('cors');
 var  app = express();
-const mysql = require('mysql');
-
-var isConnect = false;
-
-var con = mysql.createConnection({
-  host: "mysql5046.site4now.net",
-  user: "a79446_mobile",
-  password: "admin123",
-  database: "db_a79446_mobile"
-});
+var mysql = require('mysql');
 
 
-connectMYSQL();
 
 function connectMYSQL(){
-  con.connect(function(err) {
-    if (err)
-      isConnect = false;
-    else
-      isConnect = true;
+  var con = mysql.createConnection({
+    host: "mysql5046.site4now.net",
+    user: "a79446_mobile",
+    password: "admin123",
+    database: "db_a79446_mobile"
   });
+  return con;
 }
 
 app.use(bodyParser.urlencoded({ extended:  true }));
@@ -31,12 +22,16 @@ app.use(cors()); // {origin :'http://localhost:8090'}
 
 
 app.get('/Products', function(req, res) {
-  if(con.state === con.Connected){
-    connectMYSQL();
-    if(!isConnect){
-      res.send([[{result: 'failConect'}]]);
-      return;
-    }
+  var con = connectMYSQL();
+  con.connect(function(err) {
+    if (err)
+      isConnect = false;
+    else
+      isConnect = true;
+  });
+  if(!isConnect){
+    res.send([[{result: 'failConect'}]]);
+    return;
   }
   var sql = 'SELECT * FROM productos';
   con.query(sql, function (err, rows) {
@@ -51,12 +46,16 @@ app.get('/Products', function(req, res) {
 });
 
 app.post('/UpadateProduct', function(req, res) {
-  if(con.state === con.Connected){
-    connectMYSQL();
-    if(!isConnect){
-      res.send([[{result: 'failConect'}]]);
-      return;
-    }
+  var con = connectMYSQL();
+  con.connect(function(err) {
+    if (err)
+      isConnect = false;
+    else
+      isConnect = true;
+  });
+  if(!isConnect){
+    res.send([[{result: 'failConect'}]]);
+    return;
   }
   var request = req.body;
   var sql = "UPDATE productos SET codigo = " + mysql.escape(request.codigo) + ", nombre = " + mysql.escape(request.nombre) + ", cantidad = " + mysql.escape(request.cantidad) + " WHERE codigo = " +  mysql.escape(request.codigoAnt);
@@ -69,12 +68,16 @@ app.post('/UpadateProduct', function(req, res) {
 });
 
 app.get('/deleteProduct/:codigo', function(req, res) {
-  if(con.state === con.Connected){
-    connectMYSQL();
-    if(!isConnect){
-      res.send([[{result: 'failConect'}]]);
-      return;
-    }
+  var con = connectMYSQL();
+  con.connect(function(err) {
+    if (err)
+      isConnect = false;
+    else
+      isConnect = true;
+  });
+  if(!isConnect){
+    res.send([[{result: 'failConect'}]]);
+    return;
   }
   var sql = 'DELETE FROM productos WHERE codigo = ' + mysql.escape(req.params.codigo);
   con.query(sql, function (err, result) {
@@ -86,12 +89,16 @@ app.get('/deleteProduct/:codigo', function(req, res) {
 });
 
 app.post('/InsertProduct', function(req, res) {
-  if(con.state === con.Connected){
-    connectMYSQL();
-    if(!isConnect){
-      res.send([[{result: 'failConect'}]]);
-      return;
-    }
+  var con = connectMYSQL();
+  con.connect(function(err) {
+    if (err)
+      isConnect = false;
+    else
+      isConnect = true;
+  });
+  if(!isConnect){
+    res.send([[{result: 'failConect'}]]);
+    return;
   }
 
   var request = req.body;

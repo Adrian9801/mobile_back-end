@@ -7,11 +7,12 @@ const mysql = require('mysql');
 var isConnect = false;
 
 var con = mysql.createConnection({
-  host: "localhost",
-  user: "admin",
-  password: "admin123456789",
-  database: "inventario"
+  host: "mysql5046.site4now.net",
+  user: "a79446_mobile",
+  password: "admin123",
+  database: "db_a79446_mobile"
 });
+
 
 connectMYSQL();
 

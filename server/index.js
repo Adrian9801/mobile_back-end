@@ -58,7 +58,7 @@ app.get('/Products', function(req, res) {
 app.post('/UpadateProduct', function(req, res) {
   var request = req.body;
   var sql = "UPDATE productos SET codigo = " + mysql.escape(request.codigo) + ", nombre = " + mysql.escape(request.nombre) + ", cantidad = " + mysql.escape(request.cantidad) + " WHERE codigo = " +  mysql.escape(request.codigoAnt);
-  con.query(sql, function (err, rows) {
+  connection.query(sql, function (err, rows) {
     if (err)
       res.send([[{result: 'error'}]]);
     else 
@@ -68,7 +68,7 @@ app.post('/UpadateProduct', function(req, res) {
 
 app.get('/deleteProduct/:codigo', function(req, res) {
   var sql = 'DELETE FROM productos WHERE codigo = ' + mysql.escape(req.params.codigo);
-  con.query(sql, function (err, result) {
+  connection.query(sql, function (err, result) {
     if (err)
       res.send([[{result: 'error'}]]);
     else
@@ -79,7 +79,7 @@ app.get('/deleteProduct/:codigo', function(req, res) {
 app.post('/InsertProduct', function(req, res) {
   var request = req.body;
   var sql = "INSERT INTO productos (codigo, nombre, cantidad) VALUES (" + mysql.escape(request.codigo) + ", " + mysql.escape(request.nombre) + ", " + mysql.escape(request.cantidad) + ")";
-  con.query(sql, function (err, result) {
+  connection.query(sql, function (err, result) {
     if (err)
       res.send([[{result: 'error'}]]);
     else
